@@ -1,5 +1,7 @@
+import sys
 import heapq
 
+input = sys.stdin.readline
 INF = 1e10
 V, E = map(int, input().split())  # v 정점 수(1~20,000), e 간선 수(1~300,000)
 k = int(input())  # 출발점
