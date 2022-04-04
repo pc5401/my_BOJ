@@ -1,3 +1,5 @@
+# python 시간초과 -> pypy + sys.stdin.readline 으로 해결
+
 import sys
 from collections import defaultdict, deque
 input = sys.stdin.readline
@@ -32,7 +34,7 @@ for _ in range(K):  # 명령 횟수
             balls[nr, nc].append([m, s, d])
 
     # 2번 구현
-    
+
     clone = []
     for ki in balls:
         if balls[ki] == deque([]):
@@ -51,7 +53,7 @@ for _ in range(K):  # 명령 횟수
             for _ in range(cl[1]):  # 겹치는 애들 빼기
 
                 v = balls[cl[0]].popleft()
-                
+
                 sumM += v[0]
                 sumS += v[1]
                 cnt += 1
