@@ -1,0 +1,29 @@
+from collections import deque
+
+def solution(people, limit):
+
+    lst = deque(sorted(people))
+    cnt = low = top = 0
+
+    while lst:
+        if len(lst) >= 2:
+            top =lst[-1]
+            low = lst[0]
+        elif len(lst) == 1:
+            cnt += 1
+            break
+
+        ad = low + top
+
+        if limit >= ad:
+            cnt += 1
+            lst.pop()
+            lst.popleft()
+
+        else:
+            cnt += 1
+            lst.pop()
+
+
+    answer = cnt
+    return answer
