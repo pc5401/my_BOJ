@@ -1,7 +1,8 @@
-from collections import defaultdict
+from collections import defaultdict, deque
 
 
 c = int(input()) # 컴퓨터 수
+lst = [0]*(c+1)
 n = int(input())
 data = defaultdict(list)
 for _ in range(n):
@@ -9,18 +10,17 @@ for _ in range(n):
     data[x].append(y)
     data[y].append(x)
 
-lst = [0]*(c+1)
+que = deque()
 
+que.append(1)
+lst[1] = 1
 
-def dfs(x):
-    lst[x] = 1
+while que:
+    v = que.popleft()
+    lst[v] = 1
 
-    for i in data[x]:
+    for i in data[v]:
         if not lst[i]:
-            dfs(i)
+            que.append(i)
 
-
-dfs(1)
-lst[0] = 0
-print(lst.count(1)-1)
-
+print(lst.count(1) - 1)
