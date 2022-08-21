@@ -1,4 +1,6 @@
 from collections import defaultdict
+import sys
+input = sys.stdin.readline
 
 N = int(input())
 tree = defaultdict(list)
@@ -20,3 +22,4 @@ while stack:
 
 for r in res[1:]:
     print(r)
+    
