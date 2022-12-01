@@ -1,0 +1,5 @@
+D, H, W = map(int, input().split())
+v = ((D**2)/((H**2) + (W**2)))**(0.5)
+resH = int(v*H)
+resW = int(v*W)
+print(resH, resW)
