@@ -1,7 +1,6 @@
 import sys
 input = sys.stdin.readline
 
-
 P,K = map(int,input().split())
 
 sosu = []
