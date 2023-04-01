@@ -1,14 +1,16 @@
-from functools import lru_cache
+from collections import defaultdict
 import sys
 input = sys.stdin.readline
 
 N, M  = map(int,input().split())
 
-@lru_cache(None)
-def comb(n, m):
-    if n == m or m == 0:
-        return 1
-    return comb(n-1, m-1) + comb(n-1, m)
+n, m = 1, 1
+cnt = M
+while cnt:
+    n *= N
+    N -= 1
+    m *= M
+    M -= 1
+    cnt -= 1
 
-
-print(comb(N,M))
+print(n//m)
