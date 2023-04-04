@@ -1,79 +1,52 @@
+# chatGPT가 알려준 시간 개선안, python으로 통과할 수 있는지 테스트
+
 from collections import defaultdict
-import sys
-input = sys.stdin.readline
 
-def fish(j):
-    i = 0
+R, C, M = map(int, input().split())
+sharks = defaultdict(list)  # 상어 정보를 저장할 딕셔너리
+for i in range(1, M+1):
+    r, c, s, d, z = map(int, input().split())
+    sharks[(r-1, c-1)] = [r-1, c-1, s, d-1, z]  # 좌표는 0부터 시작
 
-    while R > i:
-        v = graph[i][j]
-        if v and sharks[v][4]:
-            shark = sharks[v][4]
-            sharks[v][4] = 0 # 크기가 영이면 잡힌 것
-            graph[i][j] = 0
-            return shark
-        i += 1
-    return 0
-
-def battle(x,y): # y가 도전자
-    if sharks[x][4] > sharks[y][4]:
-        sharks[y][4] = 0 # y 상어 죽음
-        return False
-    else: 
-        sharks[x][4] = 0 # x 상어 죽음
-        return True
-
-def move(j):
-    global R,C,M
-    arr = [[0]*C for i in range(R)]
-
-    for m in range(1,M+1):
-        if sharks[m][4] == 0: # 상어 즉음,
-            continue
-        r, c, s, d, z = sharks[m]
-        ni, nj = r, c
-        if d == 0 or d == 1:
-            for i in range(s):
-                ni += 1 * delta[d][0]
-                if 0 <= ni < R:
-                    continue
-                d = 0 if d else 1
-                ni += 2 * delta[d][0]
-        else:
-            for i in range(s):
-                nj += 1 * delta[d][1]
-                # print(f'o:{i}, nj:{nj}')
-                if 0 <= nj < C:
-                    continue
-                d = 3 if d == 2 else 2
-                nj += 2 * delta[d][1]
-
-        p = arr[ni][nj]
-        if p and p < m: # 이미 상어가 있다면,
-            vs = battle(p,m)
-            if vs:
-                sharks[m][0],sharks[m][1],sharks[m][3] = ni,nj,d
-                arr[ni][nj] = m
-        else:
-            sharks[m][0],sharks[m][1],sharks[m][3] = ni,nj,d
-            arr[ni][nj] = m
-    return arr
-
-
-delta = [[-1,0],[1,0],[0,1],[0,-1]]
-R,C,M  = map(int,input().split()) # M은 상어의 수
-graph = [[0]*C for i in range(R)]
-sharks = defaultdict(list)
-for i in range(1,M+1):
-    rr, cc, s, dd, z = map(int,input().split()) 
-    r,c,d = rr-1,cc-1,dd-1 
-    graph[r][c] = i
-    sharks[i] = [r, c, s, d, z]
-    # (r, c)는 상어의 위치, s는 속력, d는 이동 방향, z는 크기
-
-res = 0
+ans = 0  # 총 잡은 상어 크기의 합
+delta = [(-1, 0), (1, 0), (0, 1), (0, -1)]  # 상, 하, 우, 좌 방향 벡터
 for j in range(C):
-    res += fish(j) # 낚시
-    graph = move(j)
+    # 1. 낚시
+    min_dist = R  # 가장 가까운 상어까지의 거리
+    min_shark = None  # 가장 가까운 상어의 번호
+    for i in range(R):
+        if sharks[(i, j)]:
+            if i < min_dist:
+                min_dist = i
+                min_shark = (i, j)
+            break
+    if min_shark:
+        ans += sharks[min_shark][4]
+        sharks[min_shark] = None
 
-print(res)
+    # 2. 상어 이동
+    new_sharks = defaultdict(list)
+    for (r, c), info in sharks.items():
+        if not info:  # 이미 낚시당한 상어면 continue
+            continue
+        s, d, z = info[2:]
+        nr, nc = r + s * delta[d][0], c + s * delta[d][1]
+        while not (0 <= nr < R and 0 <= nc < C):  # 벽에 부딪힐 때마다 방향을 전환하면서 이동
+            if nr < 0:
+                nr = -nr
+                d = 1
+            elif nr >= R:
+                nr = 2 * (R-1) - nr
+                d = 0
+            elif nc < 0:
+                nc = -nc
+                d = 2
+            elif nc >= C:
+                nc = 2 * (C-1) - nc
+                d = 3
+        if new_sharks[(nr, nc)] and new_sharks[(nr, nc)][4] > z:  # 이미 다른 상어가 있을 경우 크기 비교 후 작은 상어는 제거
+            continue
+        new_sharks[(nr, nc)] = [nr, nc, s, d, z]
+    sharks = new_sharks
+
+print(ans)
