@@ -7,9 +7,9 @@ def res(A,B):
     dp = [[0]*(B_len+1) for _ in range(A_len+1)]
 
     # dp 행렬 초기화
-    for i in range(A_len):
+    for i in range(A_len+1):
         dp[i][0] = i
-    for i in range(B_len):
+    for i in range(B_len+1):
         dp[0][i] = i
 
     # 레벤슈타인 거리 계산
@@ -19,11 +19,11 @@ def res(A,B):
                 dp[i][j] = dp[i-1][j-1]
             else: # 순서대로 삽입, 삭제, 대체
                 dp[i][j] = min(dp[i][j-1],dp[i-1][j],dp[i-1][j-1])+1 # 그리고 연산 + 1
-    
+
     return dp[-1][-1]
 
 
 if __name__ == "__main__":
-    a = input()
-    b = input()
+    a = input().rstrip()
+    b = input().rstrip()
     print(res(a,b))
