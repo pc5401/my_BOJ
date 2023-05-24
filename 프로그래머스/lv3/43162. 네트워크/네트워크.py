@@ -6,8 +6,6 @@ def dfs(num:int, visit:list, computers:list):
             dfs(i,visit,computers)
             
 
-
-
 def solution(n, computers):
     answer = 0
     visit = [0] * n
