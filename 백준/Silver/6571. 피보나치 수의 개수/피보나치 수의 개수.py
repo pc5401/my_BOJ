@@ -3,10 +3,10 @@ input = sys.stdin.readline
 
 
 if __name__ == '__main__':
-    dp = [0] * 482
-    dp[0], dp[1] = 1,2
-    for i in range(2,482):
-        dp[i] = dp[i-1] + dp[i-2]
+    dp = [1, 2]
+    while dp[-1] < 10**100:
+        dp.append(dp[-1] + dp[-2])
+
 
     while True:
         a, b = map(int,input().split())
@@ -22,4 +22,5 @@ if __name__ == '__main__':
                 break
     
         print(cnt)
+
 
