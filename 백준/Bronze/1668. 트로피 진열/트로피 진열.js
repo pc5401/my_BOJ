@@ -1,26 +1,26 @@
 function solve(input) {
   // TODO: 알고리즘 로직
     const N = Number(input[0]);
-    const Arr = [];
-    for(let i=1; i <= N; i++){
-        Arr.push(Number(input[i]))
-    }
-    let [leftCnt, leftMax] = [0,0];
-    for(a of Arr){
-        if (leftMax < a){
-            leftMax = a;
-            leftCnt++
+    const trophies = input.slice(1).map(Number);
+
+    let leftCnt = 0, leftMax = 0;
+    for (const height of trophies) {
+        if (leftMax < height) {
+            leftMax = height;
+            leftCnt++;
         }
     }
-    let [rightCnt, rightMax] = [0,0];
-    for(let i=Arr.length -1; i >= 0; i--){
-        if (rightMax < Arr[i]){
-            rightMax = Arr[i];
-            rightCnt++
+
+    let rightCnt = 0, rightMax = 0;
+    for (let i = N - 1; i >= 0; i--) {
+        if (rightMax < trophies[i]) {
+            rightMax = trophies[i];
+            rightCnt++;
         }
     }
-    console.log(leftCnt)
-    console.log(rightCnt)
+
+    console.log(leftCnt);
+    console.log(rightCnt);
 }
 
 
