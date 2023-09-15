@@ -10,8 +10,6 @@ if __name__ == "__main__":
 
     for idx, card in enumerate(look_for):
         lo = bisect.bisect_left(my_cards, card)
-        if lo == -1:
-            continue
         hi = bisect.bisect_right(my_cards, card)
         res_list[idx] = hi - lo
 
