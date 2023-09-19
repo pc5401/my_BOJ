@@ -1,43 +1,56 @@
-from collections import deque
+import sys
+input = sys.stdin.readline
+        
 
 def is_road(grassland, x1, y1, x2, y2):
     return f"{x1}_{y1}_{x2}_{y2}" in grassland or f"{x2}_{y2}_{x1}_{y1}" in grassland
 
-def pasture(start_x, start_y, N, grassland):
-    visited = [[False]*N for _ in range(N)]
-    visited[start_x][start_y] = True
-    queue = deque([(start_x, start_y)])
 
-    while queue:
-        x, y = queue.popleft()
+def pasture(cow, N, grassland):
+    visited = [[0]*N for _ in range(N)]
+    cow[0] -= 1
+    cow[1] -= 1
+    visited[cow[0]][cow[1]] = 1
+    stack = [cow]
 
-        for dx, dy in [(0, 1), (1, 0), (0, -1), (-1, 0)]:
-            nx, ny = x + dx, y + dy
+    while stack:
+        v = stack.pop()
 
-            if 0 <= nx < N and 0 <= ny < N and not visited[nx][ny]:
-                if is_road(grassland, x, y, nx, ny):
+        for d in [[0,1],[1,0],[0,-1],[-1,0]]:
+            ni = v[0] + d[0]
+            nj = v[1] + d[1]
+            if 0 <= ni < N and 0 <= nj < N and not visited[ni][nj]:
+                if is_road(grassland, v[0], v[1], ni, nj):
                     continue
-                visited[nx][ny] = True
-                queue.append((nx, ny))
-
+                visited[ni][nj] = 1
+                stack.append([ni, nj])
+    
     return visited
 
+
+def count_result(idx, cows, visited, K):
+    rtn = 0
+    
+    for i in range(idx+1, K):
+        r, c = cows[i]
+        if visited[r-1][c-1] == 0:
+            rtn += 1
+
+    return rtn
+
+
 if __name__ == "__main__":
-    N, K, R = map(int, input().split())
+    # 입력 & 전처리
+    N, K, R = map(int,input().split())
     grassland = set()
     for _ in range(R):
         r1, c1, r2, c2 = map(int, input().split())
         grassland.add(f"{r1-1}_{c1-1}_{r2-1}_{c2-1}")
+    cows = [list(map(int, input().split())) for _ in range(K)]
+    result = 0
 
-    cows = [tuple(map(int, input().split())) for _ in range(K)]
-    cnt = 0
+    for cow_idx in range(K-1):
+        visited_land = pasture(cows[cow_idx], N, grassland)
+        result += count_result(cow_idx, cows, visited_land, K)
 
-    for i in range(K):
-        x1, y1 = cows[i]
-        visited = pasture(x1 - 1, y1 - 1, N, grassland)
-        for j in range(i + 1, K):
-            x2, y2 = cows[j]
-            if not visited[x2 - 1][y2 - 1]:
-                cnt += 1
-
-    print(cnt)
+    print(result)
