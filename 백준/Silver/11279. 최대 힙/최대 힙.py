@@ -2,18 +2,20 @@ import sys
 import heapq
 input = sys.stdin.readline
 
-
-arr = []
-N = int(input())
-for n in range(N):
-    x = int(input())
-    if x:
-        v = -x
-        heapq.heappush(arr, v)
-    else:
-        if arr:
-            v = heapq.heappop(arr)
-            print(-v)
+if __name__ == "__main__":
+    # 입력 & 전처리
+    N = int(input())
+    res = []
+    heap = []
+    for _ in range(N):
+        n = int(input())
+        if n:
+            heapq.heappush(heap, -n)
         else:
-            print(0)
+            if heap:
+                res.append(-heapq.heappop(heap))
+            else:
+                res.append(0)
 
+    for r in res:
+        print(r)
