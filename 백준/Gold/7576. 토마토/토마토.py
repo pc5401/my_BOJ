@@ -1,43 +1,40 @@
-import sys
-import collections
-input = sys.stdin.readline
+from collections import deque
 
-def start_tomato(M, N) -> tuple:
-    rtn = []
-    for i in range(N):
-        for j in range(M):
-            if tomato[i][j] == 1:
-                rtn.append((i,j))
-    return rtn
+m, n = map(int, input().split())
+arr = []
+Que = deque([])
 
-def ans(M, N) -> int:
-    maxV = 1
+for i in range(n):
+    lst = list(map(int, input().split()))
+    for j in range(len(lst)):
+        if lst[j] == 1:
+            Que.append([i, j])
 
-    for i in range(N):
-        for j in range(M):
-            if tomato[i][j] > maxV:
-                maxV = tomato[i][j]
-            
-            if tomato[i][j] == 0:
-                return -1
-    
+    arr.append(lst)
+
+
+def BFS():
+    maxV = 0
+    while Que:
+
+        v = Que.popleft()
+        for d in [[-1, 0], [1, 0], [0, -1], [0, 1]]:
+            ni = v[0] + d[0]  # y좌표
+            nj = v[1] + d[1]  # x좌표
+
+            if 0 <= ni < n and 0 <= nj < m:  # 범위를 벗어나지 않았을 경우
+                if arr[ni][nj] == 0:  # and [ni, nj] not in visited:
+                    Que.append([ni, nj])
+                    arr[ni][nj] = arr[v[0]][v[1]] + 1
+                    maxV = max(maxV, arr[ni][nj])
+
     return maxV - 1
 
+res = BFS()
+res = res if res > 0 else 0  # 모두 익었을 때 or 벽에 막혀 하나도 안 섞었을 때.
 
-if __name__ == "__main__":
-    M, N = map(int, input().split())
-    tomato = [list(map(int, input().split())) for _ in range(N)]
-    
-    Q = collections.deque()
-    Q.extend(start_tomato(M, N))
+zero_cnt = [i.count(0) for i in arr]  # 썩지 않은 토마토가 있을 경우
+res = -1 if zero_cnt.count(0) < len(zero_cnt) else res
 
-    while Q:
-        v = Q.popleft()
-        for d in [(0,1),(1,0),(-1,0),(0,-1)]:
-            ni = v[0] + d[0]
-            nj = v[1] + d[1]
-            if 0 <= ni < N and 0 <= nj < M and tomato[ni][nj] == 0:
-                tomato[ni][nj] = tomato[v[0]][v[1]] + 1
-                Q.append((ni, nj))
-    
-    print(ans(M, N))
+
+print(res)
