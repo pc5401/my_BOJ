@@ -12,11 +12,12 @@ if __name__ == "__main__":
         if lst[i][1] == lst[i-1][1] and lst[i][2] == lst[i-1][2] and lst[i][3] == lst[i-1][3]:
             ranks[i] = ranks[i-1]
         else:
-            ranks[i] = ranks[i-1] + 1
+            ranks[i] = i + 1
         
         if lst[i][0] == K:
             k_rank = ranks[i]
-            break
+
+    if lst[0][0] == K:
+        k_rank = ranks[0]
 
     print(k_rank)
-
