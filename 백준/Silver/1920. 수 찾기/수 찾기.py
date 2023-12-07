@@ -1,25 +1,36 @@
-def seach(target):
-    left, right = 0, len(nums)-1
+import sys
+input = sys.stdin.readline
 
-    while left <= right:
-        mid = (left + right) // 2
 
-        if nums[mid] < target:
-            left = mid + 1
+def solve(target) -> int:
+    global N
 
-        elif nums[mid] > target:
-            right = mid - 1
+    lo, hi = 0, N-1
+
+    while lo < hi:
+        mid = (lo + hi) // 2
+        
+        if A[mid] < target:
+            lo = mid + 1
         else:
-            return 1
-    return 0
+            hi = mid
+    
+    if A[lo] == target:
+        return 1
+    else:
+        return 0
 
 
-N = int(input())
-Alst = list(map(int, input().split()))
-M = int(input())
-Mlst = list(map(int, input().split()))  # question
-nums = sorted(Alst)  # 이진 탐색을 위한 A 정렬
+if __name__ == "__main__":
+    N = int(input())
+    A = list(map(int, input().split()))
+    M = int(input())
+    lst = list(map(int, input().split()))
+    A.sort()
+    result = []
 
-for m in Mlst:
-    left, right = 0, len(nums)
-    print(seach(m))
+    for target in lst:
+        result.append(solve(target))
+
+    for res in result:
+        print(res)
