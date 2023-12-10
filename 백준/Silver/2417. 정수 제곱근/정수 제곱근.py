@@ -1,16 +1,20 @@
-n = int(input())
+import sys
+input = sys.stdin.readline
 
-l = 0
-r = n
 
-cnt = 0
-while l <= r:
-    cnt += 1
-    mid = ( l + r ) // 2
+def find(n: int):
+    lo, hi = 0, n
 
-    if mid ** 2 < n:
-        l = mid + 1
-    else:
-        r = mid - 1
+    while lo < hi:
+        mid = (lo+hi)//2
+        if mid**2 < n:
+            lo = mid + 1
+        else:
+            hi = mid
+    
+    return lo
 
-print(mid if mid**2 >= n else mid+1)
+
+if __name__ == "__main__":
+    N = int(input())
+    print(find(N))
