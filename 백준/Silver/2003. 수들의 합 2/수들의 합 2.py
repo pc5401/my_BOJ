@@ -20,7 +20,7 @@ if __name__ == "__main__":
         elif sumV > M:
             lo += 1
         else:
-            lo += 1
+            hi += 1
             res += 1
 
     print(res)
