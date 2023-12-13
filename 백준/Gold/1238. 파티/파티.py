@@ -1,49 +1,40 @@
 import sys
-input = sys.stdin.readline
+import collections
 import heapq
+input = sys.stdin.readline
 
-def dijkstra(start, end):
-    # 시작 세팅
-    distance = [1e9] * (N + 1)
-    q = []
-    heapq.heappush(q, (0, start))
+def dijkstra(start: int, N: int, end:int) -> list:
+    distance = [1e9] * N
     distance[start] = 0
-    # Q가 빌 때까지 or end 에 도착할 때까지.
-    while q:
-        dist, now = heapq.heappop(q)
+    Q = []
+    heapq.heappush(Q, (0, start))
 
-        if distance[now] < dist:  # 이미 최단거리라면
+    while Q:
+        now_cost, now = heapq.heappop(Q)
+        
+        if distance[now] < now_cost:
             continue
+        
+        for next, next_cost in dp[now]:
+            cost = now_cost + next_cost
+            if distance[next] > cost:
+                distance[next] = cost
+                heapq.heappush(Q, (cost, next))
 
-        for i in graph[now]:
-            cost = dist + i[1]
-
-
-            if cost < distance[i[0]]:
-                distance[i[0]] = cost
-                heapq.heappush(q, (cost, i[0]))
-
-    # print(distance)
-    # print(distance[end])
     return distance[end]
 
+if __name__ == "__main__":
+    N, M, X = map(int, input().split())
+    dp = collections.defaultdict(list)
+    for _ in range(M):
+        A, B, T = map(int, input().split())
+        dp[A-1].append((B-1,T))
 
+    res = 0
 
-
-N, M, X = map(int, input().split())
-graph = [[] for n in range(N+1)]
-
-for _ in range(M):
-    s, e, t = map(int, input().split()) # s:시작점, e: 끝점, t: 거리
-    graph[s].append((e, t)) # 단방향
-
-maxV = 0
-for n in range(1, N+1):
-    # print(f'확인 n{n} X{X}')
-    a = int(dijkstra(n, X))
-    b = int(dijkstra(X, n))
-
-    if a + b > maxV:
-        maxV = (a + b)
-
-print(maxV)
+    for i in range(N):
+        a = dijkstra(X-1, N,  i)
+        b = dijkstra(i, N, X-1)
+        res = max(res, a+b)
+    
+    print(res)
