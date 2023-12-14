@@ -5,22 +5,22 @@ if __name__ == "__main__":
     N = int(input())
     M = int(input())
     lst = list(map(int, input().split()))
-    visited = [0]*N
+    lst.sort()
     res = 0
-    for i in range(N):
-        if visited[i]:
-            continue
-        j = N - 1
-        while i < j:
-            if visited[j]:
-                j -= 1
-                continue
 
-            if lst[i] + lst[j] == M:
-                visited[i] = 1
-                visited[j] = 1
-                res += 1
-                break
-            j -= 1
+    lo, hi = 0, N-1
+
+    while lo < hi:
+        value = lst[lo] + lst[hi]
+        if value == M:
+            hi -= 1
+            lo += 1
+            res += 1
+        
+        elif value < M:
+            lo += 1
+        
+        else:
+            hi -= 1
+    
     print(res)
-
