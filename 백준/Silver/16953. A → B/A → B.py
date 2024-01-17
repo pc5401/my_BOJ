@@ -1,33 +1,24 @@
-from collections import deque
+import sys
+input = sys.stdin.readline
 
-a, b = map(int, input().split())
 
-q = deque()
-q.append([a, 0])
-res = -2
-cnt = 0
-if a == b:
-    print(0)
-    quit()
+if __name__ == "__main__":
+    A, B = map(int, input().split())
+    Q = [(B, 0)]
+    res = -1
 
-while q:
+    while Q:
+        b, cnt = Q.pop()
 
-    value = q.popleft()
-    v = value[0]
-    cnt = value[1] + 1
-    # 오른쪽 추가
-    l = int(str(v) + '1')
-    V = v*2
+        if b == A:
+            res = cnt+1
+            break
+        
+        if b and b % 2 == 0:
+            Q.append((b // 2, cnt+1))
 
-    if v > 10e9:
-        continue
+        if b % 10 == 1:
+            Q.append((b // 10, cnt+1))
 
-    if b == l or b == V:
-        res = cnt
-        break
 
-    else:
-        q.append([l,cnt])
-        q.append([V,cnt])
-
-print(res+1)
+    print(res)
