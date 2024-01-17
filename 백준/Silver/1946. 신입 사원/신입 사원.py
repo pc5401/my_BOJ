@@ -1,20 +1,20 @@
 import sys
 input = sys.stdin.readline
 
-T = int(input()) 
-for tc in range(T):
-    N = int(input())  # 지원자 수
-    l = []
-    for n in range(N):
-        x, y = map(int, input().split())
-        l.append([x,y])
 
-    lst = sorted(l)
-    cnt = 1
-    maxV = lst[0][1]
-    for i in range(N):
-        if maxV > lst[i][1]:
-            cnt += 1
-            maxV = lst[i][1]
-    print(cnt)
+if __name__ == "__main__":
+    T = int(input())
+    res = []
+    for _ in range(T):
+        N = int(input())
+        noob = [ tuple(map(int, input().split())) for _ in range(N) ]
+        noob.sort()
+        point = noob[0][1]
+        res = 0
+        
+        for doc, spk in noob:
+            if point >= spk:
+                res += 1
+                point =spk
 
+        print(res)
