@@ -1,17 +1,10 @@
-def dfs(num, lst):
-    global m, n
-
-    lst.append(num)
-
-    if len(lst) >= m:
-        return print(*lst)
-
-    for i in range(num+1,n+1):
-        dfs(i, lst[:])
+import sys
+import itertools
+input = sys.stdin.readline
 
 
-
-n, m =map(int,input().split())
-
-for i in range(1, n+1):
-    dfs(i, [])
+if __name__ == "__main__":
+    N, M = map(int, input().split())
+    lst = itertools.combinations(range(1, N+1), M)
+    for l in lst:
+        print(*l)
