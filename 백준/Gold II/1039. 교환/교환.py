@@ -1,17 +1,15 @@
 import sys
-import collections
 input = sys.stdin.readline
 
 
 def main(N: int, K: int)-> int:
     rtn = -1
-    Q = collections.deque()
-    Q.append((N, K))
+    Q = [(N, K)]
     l = len(str(N))
     zero_check = 10**(l-1) - 1
     visited = {(N,K)}
     while Q:
-        n, k = Q.popleft()
+        n, k = Q.pop()
         if k == 0:
             rtn = max(rtn, n)
             continue
