@@ -16,9 +16,13 @@ if __name__ == '__main__':
     M = int(input())
     x_lst = list(map(int, input().split()))
     res = 0
-    for r in range(1, N+1):
-        if is_possible(N, M, r, x_lst):
-            res = r
-            break
     
-    print(res)
+    lo, hi = 1, N+1
+    while lo <= hi:
+        mid = (lo+hi) // 2
+        if is_possible(N, M, mid, x_lst):
+            hi = mid - 1
+        else:
+            lo = mid + 1
+    
+    print(lo)
