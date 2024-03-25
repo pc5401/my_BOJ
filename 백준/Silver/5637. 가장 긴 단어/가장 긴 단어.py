@@ -1,20 +1,23 @@
+import sys
 import re
 
-def solve(text:list):
-    text = ' '.join(text)
-    words = re.findall('[a-zA-Z-]+', text)  # Extract words
-    ans = max(words, key=len)  # Find the longest word
-    return ans.lower()
+input = sys.stdin.readline
+
+def main():
+    max_len = 0
+    result = ''
+    lines = ''
+
+    for line in sys.stdin:
+        lines += line
+    
+    for word in re.findall('[a-zA-Z-]+', lines):
+        if len(word) > max_len:
+            max_len = len(word)
+            result = word
+    
+    print(result.lower())
 
 
-if __name__ == '__main__':
-    lst = []
-    while True:
-        line = input()
-        if 'E-N-D' in line:
-            lst.append(line[:line.index('E-N-D')])
-            break
-        else:
-            lst.append(line)
-    res = solve(lst)
-    print(res)
+if __name__ == "__main__":
+    main()
