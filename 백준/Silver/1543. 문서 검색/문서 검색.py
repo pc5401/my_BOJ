@@ -4,7 +4,7 @@ input = sys.stdin.readline
 
 
 def solve(target: str, words: str) -> int:
-    return len(re.findall(re.compile(target), words))
+    return len(re.findall(target, words))
 
 
 def main():
