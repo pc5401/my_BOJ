@@ -3,23 +3,23 @@ input = sys.stdin.readline
 
 
 def solve(N: int) -> int:
-    rtn = 1
-    facto_value = 1
+    count  = 1
+    sum_of_consecutive = 1 # 1부터 연속된 자연수의 합
     i = 2
 
     while True:
-        number = N - facto_value
-        if number < i:
+        remaining = N - sum_of_consecutive 
+        if remaining < i:
             break
         
-        if not number % i:
-            rtn += 1
+        # remaining이 i로 나누어 떨어지면 연속된 i개의 합으로 N을 표현 가능
+        if not remaining % i:
+            count  += 1
         
-        facto_value += i
+        sum_of_consecutive  += i
         i += 1
 
-    return rtn
-
+    return count 
 
 
 def main():
