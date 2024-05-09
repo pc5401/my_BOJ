@@ -5,7 +5,6 @@ MOD = 900528
 
 def solve(keys: str, ps: str) -> int:
     n: int = len(keys)
-    m: int = len(ps)
 
     keyboard = {key: idx + 1 for idx, key in enumerate(keys)}
     
@@ -15,7 +14,7 @@ def solve(keys: str, ps: str) -> int:
         rtn = (rtn + keyboard[word] * num) % MOD
         num = (num * n) % MOD
     
-    return rtn % 900528
+    return rtn
 
 def main():
     # 입력값
