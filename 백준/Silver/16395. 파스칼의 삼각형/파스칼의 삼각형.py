@@ -1,7 +1,9 @@
 import sys
+import functools
 input = sys.stdin.readline
 
 
+@functools.cache
 def solve(n: int, k: int) -> int:
     if n == 1 or n == 2:
         return 1
