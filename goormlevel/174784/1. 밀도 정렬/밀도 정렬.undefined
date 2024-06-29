@@ -1,0 +1,13 @@
+# -*- coding: utf-8 -*-
+# UTF-8 encoding when using korean
+import sys
+input = sys.stdin.readline
+
+def main():
+	N = int(input())
+	lst = [list(map(int, input().split()))+[i+1] for i in range(N)]
+	result = [[w/v, w, n] for w, v, n in lst]
+	result.sort(key=lambda x: (-x[0], -x[1], x[2]))
+	print(result[0][2])
+	
+main()
