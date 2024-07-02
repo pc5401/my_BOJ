@@ -1,0 +1,35 @@
+import sys
+input = sys.stdin.readline
+
+def solve(a, b):
+	
+	A = {4:0, 3:0, 2:0, 1:0}
+	B = {4:0, 3:0, 2:0, 1:0}
+	
+	for i in range(1, a[0]+1):
+		A[a[i]] += 1
+		
+	for i in range(1, b[0]+1):
+		B[b[i]] += 1
+		
+	for i in range(4, 0, -1):
+		if A[i] > B[i]: 
+			return 'A'
+		elif B[i] > A[i]: 
+			return 'B'
+		
+	return 'D'		
+	
+
+
+def main():
+	result = []
+	N = int(input())
+	for _ in range(N):
+		result.append(solve(list(map(int, input().split())), list(map(int, input().split()))))
+	
+	for res in result:
+		print(res)
+	print()
+
+main()
