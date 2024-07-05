@@ -1,0 +1,48 @@
+import sys
+input = sys.stdin.readline
+
+def turn(N, A):
+	rtn = [[] for _ in range(N)]
+	
+	for k in range(N):
+		i, j = N-1, N-1-k
+		
+		while i >= k:
+			rtn[N-1-k].append(A[i][j])
+			i -= 1
+			j -= 1
+
+	return rtn
+
+	
+def compare(N, A, B):
+	cnt = 0
+	for i in range(N):
+		for j in range(i+1):
+			if A[i][j] != B[i][j]:
+				cnt += 1
+				
+	return cnt
+
+
+def main():
+	N = int(input())
+	A = [list(map(int, input().split())) for _ in range(N)]
+	B = [list(map(int, input().split())) for _ in range(N)]
+	result = float('INF')
+	
+	result = min(result, compare(N, A, B))
+	one_turn = turn(N, A)
+	result = min(result, compare(N, one_turn, B))
+	result = min(result, compare(N, turn(N, one_turn), B))
+	R_A = [a[::-1] for a in A]
+	result = min(result, compare(N, R_A, B))
+	one_turn = turn(N, R_A)
+	result = min(result, compare(N, one_turn, B))
+	result = min(result, compare(N, turn(N, one_turn), B))
+	
+	print(result)
+	
+
+
+main()
