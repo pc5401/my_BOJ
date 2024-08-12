@@ -27,7 +27,7 @@ int main() {
     long N;
     cin >> N;
 
-    vector<long> dp(1001, -1);  // 메모이제이션을 위한 크기 101의 배열 (-1로 초기화)
+    vector<long> dp(10001, -1);  // 메모이제이션을 위한 크기 101의 배열 (-1로 초기화)
 
     cout << solve(N, dp) << endl;
 
