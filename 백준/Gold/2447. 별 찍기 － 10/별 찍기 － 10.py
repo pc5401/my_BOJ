@@ -1,5 +1,4 @@
 import sys
-
 input = sys.stdin.readline
 
 def solve(n: int, memo: dict[int, str]):
