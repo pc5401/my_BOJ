@@ -4,13 +4,13 @@
 
 using namespace std;
 
-int solve(int n, vector<int> lst){
+int solve(int n, const vector<int>& lst){
     int lo = 0;
     int hi = 1;
     int rtn = 0;
     int clockwise, counterclockwise;
     
-    while (lo < hi){
+    while (hi < n){
         clockwise = lst[hi] - lst[lo];
         counterclockwise = (lst[n] - lst[hi]) + lst[lo];
 
@@ -18,14 +18,15 @@ int solve(int n, vector<int> lst){
         
         if (counterclockwise > clockwise) hi++;
         else lo++;
-
-        if (hi >= n) break;
     }
 
     return rtn;
 }
 
 int main() {
+    ios_base::sync_with_stdio(false); // 입출력 속도 향상
+    cin.tie(NULL);
+
     int n;
     cin >> n;
 
@@ -37,9 +38,9 @@ int main() {
         lst[i] += lst[i-1];
     }
 
-
     int result = solve(n, lst);
-    cout << result;
+    cout << result << endl;
     
     return 0;
 }
+
