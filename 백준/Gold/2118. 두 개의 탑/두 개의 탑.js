@@ -26,7 +26,7 @@ const solve = (n, arr) => {
   arr.unshift(0)
   let lo = 0;
   let hi = 1;
-
+  let clockwise, counterclockwise;
   while (lo < hi){
     clockwise = arr[hi] - arr[lo];
     counterclockwise = (arr[n] - arr[hi]) + arr[lo];
