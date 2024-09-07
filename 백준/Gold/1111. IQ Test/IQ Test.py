@@ -1,31 +1,36 @@
 import sys
 input = sys.stdin.readline
 
-def is_result(n: int, a: int, b: int, numbers: list[int]) -> bool:
-    for i in range(1, n):
-        if numbers[i] != a * numbers[i-1] + b:
-            return False
-    
-    return True
+is_same_result = lambda numbers: all(x == numbers[0] for x in numbers)
 
+def is_B(n: int, a: int, b: int, numbers: list[int]) -> bool:
+    return any(numbers[i] != a * numbers[i-1] + b for i in range(1, n))
 
-def get_last_number(n, a, b):
-    return a*n + b
-
+def get_a_b(x0, x1, x2):
+    # ZeroDivisionError 방지
+    if x0 == x1:
+        return None
+    a = (x1 - x2) // (x0 - x1)  # 정수 나눗셈
+    b = x1 - (x0 * a)
+    return (a, b)
 
 def solve(n: int, numbers: list[int]) -> int:
-    last_numbers = set()
-    for i in range(201):
-        for j in range(20001):
-            for d in [(1,1), (-1, 1),(1, -1),(-1, -1)]:
-                a = i*d[0]
-                b = j*d[1]
-                if is_result(n, a, b, numbers):
-                    last_numbers.add(get_last_number(numbers[-1], a, b))
-                    if len(last_numbers) > 1:
-                        return 'A'
+    if n == 1:
+        return 'A'
+    elif n == 2 and numbers[0] != numbers[1]:
+        return 'A'
+    elif is_same_result(numbers):
+        return numbers[0]
 
-    return last_numbers.pop() if last_numbers else 'B'
+    a_b = get_a_b(numbers[0], numbers[1], numbers[2])
+    if a_b is None:  # ZeroDivisionError가 발생할 경우
+        return 'B'
+    
+    a, b = a_b
+    if is_B(n, a, b, numbers):
+        return 'B'
+    
+    return a * numbers[-1] + b
 
 def main():
     # 입력값
@@ -37,6 +42,6 @@ def main():
     # 출력
     print(result)
 
-
 if __name__ == "__main__":
     main()
+
