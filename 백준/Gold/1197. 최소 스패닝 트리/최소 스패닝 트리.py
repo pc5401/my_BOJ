@@ -1,4 +1,5 @@
 import sys
+sys.setrecursionlimit(10001)
 input = sys.stdin.readline
 
 
@@ -9,13 +10,13 @@ def find(node):
 
 
 if __name__ == "__main__":
-    N, M = map(int, input().split())
-    bills = [list(map(int, input().split())) for _ in range(M)]
-    union_find = {i:i for i in range(1, N+1)}
-    bills.sort(key=lambda x: x[2])
+    V, E = map(int, input().split())
+    grahp = [list(map(int, input().split())) for _ in range(E)]
+    union_find = {i:i for i in range(1, V+1)}
+    grahp.sort(key=lambda x: x[2])
     res = 0
 
-    for a, b, c in bills:
+    for a, b, c in grahp:
         A, B = find(a), find(b)
         if A == B: # 연결됨
             continue
@@ -23,3 +24,4 @@ if __name__ == "__main__":
         res += c
 
     print(res)
+
