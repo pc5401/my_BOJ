@@ -1,24 +1,31 @@
 import sys
-import math
-input = sys.stdin.readline
 
+def solve(n: int, k: int) -> int:
+    if k > n - k:
+        k = n - k
+    result = 1
+    for i in range(1, k + 1):
+        result = result * (n - k + i) // i
+    return result
 
 def main():
-    # 입력값
-    input_data = []
+    input = sys.stdin.read().split()
+    it = iter(input)
+    results = []
+    
     while True:
-        n, k = map(int, input().split())
-        if n == 0 and k == 0:
+        try:
+            n = int(next(it))
+            k = int(next(it))
+            if n == 0 and k == 0:
+                break
+            results.append(solve(n, k))
+        except StopIteration:
             break
-        input_data.append((n, k))
-
-    # # 풀이
-    result = [math.comb(n, k) for n, k in input_data]
-
-    # # 출력
-    for res in result:
-        print(res)
-
+    
+    print('\n'.join(map(str, results)))
 
 if __name__ == "__main__":
     main()
+
+
