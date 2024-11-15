@@ -6,7 +6,7 @@ def get_lst(n: int) -> list[int]:
     for i in range(1, n):
         r = rtn[-1] * i
         if r > n:
-            return rtn[::-1]
+            break
         rtn.append(r)        
     
     return rtn[::-1]
