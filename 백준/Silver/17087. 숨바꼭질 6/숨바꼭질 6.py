@@ -1,13 +1,19 @@
 import sys
-import math
 input = sys.stdin.readline
+
+
+def gcd(a: int, b: int) -> int:
+    while b != 0:
+        a, b = b, a % b
+    return a
+
 
 def solve(N: int, S: int, A: list[int]) -> int:
     rtn = abs(S - A[0])
 
     for i in range(1, N):
         dist = abs(S - A[i])
-        rtn = math.gcd(rtn, dist)
+        rtn = gcd(rtn, dist)
 
         if rtn == 1:
             break
