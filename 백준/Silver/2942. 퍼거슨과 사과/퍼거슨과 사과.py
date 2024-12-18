@@ -16,7 +16,6 @@ def get_divisor(n: int) -> list[int]:
             rtn.append(i)
             if i != n // i:
                 rtn.append(n // i)
-    rtn.sort()
     return rtn
 
 
