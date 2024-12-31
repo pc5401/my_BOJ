@@ -8,8 +8,6 @@ def solve(N: int) -> int:
     dp = [i for i in range(N+1)]
 
     for i in range(7, N+1):
-        dp[i] = dp[i-1] + 1
-
         for j in range(i-3, 0, -1):
             now = dp[j] * (i - j - 1)
             dp[i] = max(dp[i], now)
