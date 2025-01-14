@@ -15,8 +15,6 @@ def get_number(length: int) -> list[int]:
                 num_str = "4" + num_str
         rtn.append(int(num_str))
     
-    # 오름차순 정렬
-    rtn.sort()
     return rtn
 
 
