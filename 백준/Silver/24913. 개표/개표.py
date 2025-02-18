@@ -2,25 +2,35 @@ import sys
 input = sys.stdin.readline
 
 
-def solve(N: int, votes: list[int]) -> list[bool]:
-    table = [0] * N
-    rtn = []
-    other = 0
+def solve(N: int, votes: list[int]) -> list[str]:
+    others = [0] * N
+    others_sum = 0
+    others_max = 0
     me = 0
-
-    for n, a, b in votes:
-        if n == 1 and b-1 < N:
-            table[b-1] += a
-            if table[b-1] > other:
-                other = table[b-1]
-        
-        elif n == 1:
-            me += a
-
-        elif n == 2:
-            rtn.append(me + a > other + (b/N) )
-
-    return rtn
+    result = []
+    for typ, a, b in votes:
+        if typ == 1:
+            if b <= N:
+                idx = b - 1
+                others[idx] += a
+                others_sum += a
+                if others[idx] > others_max:
+                    others_max = others[idx]
+            else:
+                me += a
+        else:
+            new_me = me + a
+            y = b
+            m = others_max
+            required = N * m - others_sum
+            if y <= required:
+                new_max = m
+            else:
+                remainder = y - required
+                inc = (remainder + N - 1) // N
+                new_max = m + inc
+            result.append("YES" if new_me > new_max else "NO")
+    return result
 
 def main():
     # 입력값
@@ -30,11 +40,11 @@ def main():
     votes: list[int] = [list(map(int, input().split())) for _ in range(Q)]
 
     # 풀이
-    result = solve(N, votes)
+    result: list[str] = solve(N, votes)
 
     # 출력
     for res in result:
-        print('YES' if res else 'NO')
+        print(res)
     
 if __name__ == "__main__":
     main()
