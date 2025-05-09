@@ -1,40 +1,38 @@
-import sys
-input = sys.stdin.readline
+import math
 
+def solve():
+    n = int(input())
+    buildings = list(map(int, input().split()))
 
-def can_i_see(n: int, num: int, bulidings: list[int]) -> int:
-    rtn = 0
-    inclinations = [ (bulidings[i] - bulidings[num])/(i-num)  if num != i else 0.0 for i in range(n)]
+    if n == 1:
+        print(0)
+        return
 
-    # 왼쪽 확인
-    for i in range(num):
-        flag = 1
-        for j in range(i + 1, num):
-            if inclinations[j] <= inclinations[i]:
-                flag = 0
-                break 
-        rtn += flag
+    max_visible_count = 0
 
-    # 오른쪽 확인
-    for i in range(num+1, n):
-        flag = 1
-        for j in range(num+1, i):
-            if inclinations[j] >= inclinations[i]:
-                flag = 0
-                break 
-        rtn += flag
+    for i in range(n):
+        current_visible_count = 0
+        min_slope_left = float('inf')
+        for j in range(i - 1, -1, -1):
+            slope = (buildings[i] - buildings[j]) / (i - j)
 
-    return rtn
+            current_slope = (buildings[j] - buildings[i]) / (j - i)
 
+            if current_slope < min_slope_left:
+                current_visible_count += 1
+                min_slope_left = current_slope
 
-def main():
-    N = int(input())
-    bulidings = list(map(int, input().split()))
-    res = 0
+        max_slope_right = float('-inf')
+        for j in range(i + 1, n):
+            current_slope = (buildings[j] - buildings[i]) / (j - i)
 
-    for num in range(N):
-        res = max(res, can_i_see(N, num, bulidings))
-    print(res)
+            if current_slope > max_slope_right:
+                current_visible_count += 1
+                max_slope_right = current_slope
+        
+        if current_visible_count > max_visible_count:
+            max_visible_count = current_visible_count
 
-if __name__ == "__main__":
-    main()
+    print(max_visible_count)
+
+solve()
